@@ -1,16 +1,34 @@
-<h2>Login</h2>
+<div class="login-wrapper">
+  <div class="glass-card login-card">
 
-<form [formGroup]="loginForm" (ngSubmit)="submit()">
-  <label>Email</label>
-  <input type="email" formControlName="email">
+    <h2 class="title">Welcome Back ✈️</h2>
+    <p class="subtitle">Login to continue</p>
 
-  <label>Password</label>
-  <input type="password" formControlName="password">
+    <form [formGroup]="loginForm" (ngSubmit)="submit()">
 
-  <button type="submit">Login</button>
-</form>
+      <label>Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="you@example.com"
+      />
 
-<p>
-  Don't have an account?
-  <a routerLink="/register">Register</a>
-</p>
+      <label>Password</label>
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="••••••••"
+      />
+
+      <button type="submit" class="primary-btn">
+        Login
+      </button>
+    </form>
+
+    <p class="switch-auth">
+      Don’t have an account?
+      <a routerLink="/register">Register</a>
+    </p>
+
+  </div>
+</div>
