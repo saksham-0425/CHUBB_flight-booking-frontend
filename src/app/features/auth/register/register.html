@@ -1,19 +1,41 @@
-<h2>Register</h2>
+<div class="register-wrapper">
+  <div class="glass-card register-card">
 
-<form [formGroup]="registerForm" (ngSubmit)="submit()">
-  <label>Name</label>
-  <input type="text" formControlName="name">
+    <h2 class="title">Create Account</h2>
+    <p class="subtitle">Join and start booking flights</p>
 
-  <label>Email</label>
-  <input type="email" formControlName="email">
+    <form [formGroup]="registerForm" (ngSubmit)="submit()">
 
-  <label>Password</label>
-  <input type="password" formControlName="password">
+      <label>Name</label>
+      <input
+        type="text"
+        formControlName="name"
+        placeholder="Your full name"
+      />
 
-  <button type="submit">Register</button>
-</form>
+      <label>Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="you@example.com"
+      />
 
-<p>
-  Already have an account?
-  <a routerLink="/login">Login</a>
-</p>
+      <label>Password</label>
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Create a password"
+      />
+
+      <button type="submit" class="primary-btn">
+        Register
+      </button>
+    </form>
+
+    <p class="switch-auth">
+      Already have an account?
+      <a routerLink="/login">Login</a>
+    </p>
+
+  </div>
+</div>
