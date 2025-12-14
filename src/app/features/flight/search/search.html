@@ -1,0 +1,33 @@
+<h2>Search Flights</h2>
+
+<!-- 🔐 AUTH LINKS -->
+<div style="margin-bottom: 15px;">
+  <button *ngIf="!isLoggedIn" routerLink="/login">Login</button>
+  <button *ngIf="!isLoggedIn" routerLink="/register">Register</button>
+
+  <button *ngIf="isLoggedIn" (click)="logout()">Logout</button>
+</div>
+
+<hr />
+
+<!-- 🔍 SEARCH FORM -->
+<input placeholder="Source" [(ngModel)]="source">
+<input placeholder="Destination" [(ngModel)]="destination">
+<input type="date" [(ngModel)]="date">
+
+<button (click)="search()">Search</button>
+
+<hr />
+
+<!-- ✈️ RESULTS -->
+<div *ngFor="let flight of flights">
+  <p>
+    {{ flight.airline }} -
+    {{ flight.flightNumber }} |
+    {{ flight.source }} → {{ flight.destination }} |
+    Seats: {{ flight.availableSeats }}
+  </p>
+
+  <!-- 🚫 Book disabled if not logged in -->
+  <button *ngIf="isLoggedIn">Book</button>
+</div>
