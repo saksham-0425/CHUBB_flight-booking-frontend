@@ -20,7 +20,6 @@ export class Login {
     private authService: AuthService,
     private router: Router
   ) {
-    // ✅ Initialize form AFTER fb is available
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]

@@ -16,7 +16,7 @@ export class Register {
   registerForm!: FormGroup;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
-    // ✅ Initialize form AFTER fb is available
+
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],

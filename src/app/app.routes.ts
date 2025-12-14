@@ -7,7 +7,7 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
 
-  // 🔓 PUBLIC ROUTES
+ 
   {
     path: 'login',
     loadComponent: () =>
@@ -24,12 +24,6 @@ export const routes: Routes = [
       import('./features/flight/search/search').then(m => m.Search)
   },
 
-  // 🔐 PROTECTED ROUTES (later)
-  // {
-  //   path: 'book',
-  //   canActivate: [AuthGuard],
-  //   loadComponent: ...
-  // },
 
   {
     path: '**',

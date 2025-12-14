@@ -1,33 +1,57 @@
-<h2>Search Flights</h2>
 
-<!-- 🔐 AUTH LINKS -->
-<div style="margin-bottom: 15px;">
-  <button *ngIf="!isLoggedIn" routerLink="/login">Login</button>
-  <button *ngIf="!isLoggedIn" routerLink="/register">Register</button>
 
-  <button *ngIf="isLoggedIn" (click)="logout()">Logout</button>
-</div>
 
-<hr />
+<nav class="navbar">
+    <div class="logo">✈ AeroFlux</div>
+    <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Flights</a></li>
+        <li><a href="#">My Trips</a></li>
+        <li><a href="#">Support</a></li>
+    </ul>
+    <a href="#" class="login-btn">Login</a>
+</nav>
 
-<!-- 🔍 SEARCH FORM -->
-<input placeholder="Source" [(ngModel)]="source">
-<input placeholder="Destination" [(ngModel)]="destination">
-<input type="date" [(ngModel)]="date">
 
-<button (click)="search()">Search</button>
+<section class="hero">
+    <div class="hero-content">
+        <h1>Book Flights Seamlessly</h1>
+        <p>
+            Discover destinations, compare prices, and book flights securely
+            with AeroFlux.
+        </p>
+    </div>
 
-<hr />
+  
+    <div class="search-card">
+        <h3>Search Flights</h3>
+        <form class="search-form">
+            <input type="text" placeholder="From">
+            <input type="text" placeholder="To">
+            <input type="date">
+            <input type="number" min="1" value="1" placeholder="Passengers">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</section>
 
-<!-- ✈️ RESULTS -->
-<div *ngFor="let flight of flights">
-  <p>
-    {{ flight.airline }} -
-    {{ flight.flightNumber }} |
-    {{ flight.source }} → {{ flight.destination }} |
-    Seats: {{ flight.availableSeats }}
-  </p>
+<!-- FEATURES -->
+<section class="features">
+    <div class="feature">
+        <h3>Best Prices</h3>
+        <p>We offer competitive fares across multiple airlines.</p>
+    </div>
+    <div class="feature">
+        <h3>Secure Payments</h3>
+        <p>Your transactions are encrypted and protected.</p>
+    </div>
+    <div class="feature">
+        <h3>24/7 Support</h3>
+        <p>Our support team is always available for you.</p>
+    </div>
+</section>
 
-  <!-- 🚫 Book disabled if not logged in -->
-  <button *ngIf="isLoggedIn">Book</button>
-</div>
+<!-- FOOTER -->
+<footer class="footer">
+    <p>© 2025 AeroFlux. All rights reserved.</p>
+</footer>

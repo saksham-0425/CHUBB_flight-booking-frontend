@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './search.html',
-  styleUrl: './search.css',
+  styleUrls: ['./search.css'],
 })
 export class Search {
 

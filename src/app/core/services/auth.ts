@@ -10,16 +10,14 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  // ✅ REGISTER
   register(data: any) {
     return this.http.post(
       `${this.baseUrl}/register`,
       data,
-      { responseType: 'text' } // 🔥 IMPORTANT
+      { responseType: 'text' }
     );
   }
 
-  // ✅ LOGIN
   login(data: any) {
     return this.http.post<any>(
       `${this.baseUrl}/login`,
@@ -27,12 +25,10 @@ export class AuthService {
     );
   }
 
-  // ✅ LOGOUT
   logout() {
     localStorage.removeItem('jwt_token');
   }
 
-  // ✅ AUTH CHECK
   isLoggedIn(): boolean {
     return !!localStorage.getItem('jwt_token');
   }
