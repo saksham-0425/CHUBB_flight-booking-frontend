@@ -57,6 +57,27 @@ search() {
   });
 }
 
+getPrice(flight: any): number {
+
+  const basePrices: Record<string, number> = {
+    'Air India': 4500,
+    'Indigo': 4000,
+    'Vistara': 5200,
+    'Fly High': 4200
+  };
+
+  let price = basePrices[flight.airline] || 3500;
+
+  if (flight.availableSeats <= 5) {
+    price += 1000;
+  } else if (flight.availableSeats <= 10) {
+    price += 500;
+  }
+
+  return price;
+}
+
+
 
   logout() {
     this.authService.logout();
