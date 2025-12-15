@@ -69,6 +69,18 @@
   </div>
 </section>
 
+<section
+  class="no-results"
+  *ngIf="hasSearched && flights.length === 0"
+>
+  <h3>No Flights Available</h3>
+  <p>
+    We couldn’t find any flights for the selected date.
+    Try choosing a different date.
+  </p>
+</section>
+
+
 <!-- FEATURES -->
 <section class="features">
     <div class="feature">

@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './search.html',
   styleUrls: ['./search.css'],
+
 })
 export class Search implements OnInit {
 
@@ -19,6 +20,7 @@ export class Search implements OnInit {
   date = '';
   flights: any[] = [];
   today!: string;
+  hasSearched = false;
 
   constructor(
     private http: HttpClient,
@@ -34,25 +36,27 @@ export class Search implements OnInit {
     return this.authService.isLoggedIn();
   }
 
-  search() {
-    if (this.date < this.today) {
-      alert('You cannot search flights for past dates.');
-      return;
-    }
-
-    this.http.get<any[]>(
-      'http://localhost:8765/flights/search',
-      {
-        params: {
-          source: this.source.trim().toUpperCase(),
-          destination: this.destination.trim().toUpperCase(),
-          date: this.date
-        }
-      }
-    ).subscribe(res => {
-      this.flights = res;
-    });
+search() {
+  if (this.date < this.today) {
+    alert('You cannot search flights for past dates.');
+    return;
   }
+
+  this.http.get<any[]>(
+    'http://localhost:8765/flights/search',
+    {
+      params: {
+        source: this.source.trim().toUpperCase(),
+        destination: this.destination.trim().toUpperCase(),
+        date: this.date
+      }
+    }
+  ).subscribe(res => {
+    this.hasSearched = true; 
+    this.flights = res;
+  });
+}
+
 
   logout() {
     this.authService.logout();

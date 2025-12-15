@@ -378,3 +378,29 @@ body {
         text-align: left;
     }
 }
+
+.no-results {
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 40px 30px;
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+
+    box-shadow:
+        0 12px 30px rgba(11, 60, 93, 0.15),
+        0 0 0 1px rgba(11, 60, 93, 0.08);
+}
+
+.no-results h3 {
+    font-size: 24px;
+    color: #0b3c5d;
+    margin-bottom: 10px;
+}
+
+.no-results p {
+    font-size: 15px;
+    color: #555;
+}
