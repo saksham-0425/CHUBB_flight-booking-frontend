@@ -1,44 +1,54 @@
-<nav class="navbar">
-    <div class="logo">✈ AeroFlux</div>
-    <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Flights</a></li>
-        <li><a href="#">Support</a></li>
-    </ul>
-</nav>
+<header class="navbar">
+  <div class="logo">✈ AeroFlux</div>
 
+  <nav>
+    <a routerLink="/">Home</a>
+    <a routerLink="/flights">Flights</a>
+    <a routerLink="/support">Support</a>
+  </nav>
 
-<div class="auth-page">
-  <div class="glass-card login-card">
+</header>
+<!-- AUTH HERO -->
+<section class="auth-hero">
 
-    <h2 class="title">Welcome Back ✈️</h2>
-    <p class="subtitle">Login to continue booking</p>
+  <!-- LEFT SIDE (FORM) -->
+  <div class="auth-left">
+    <div class="auth-card">
 
-    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Login to continue booking</p>
 
-      <label>Email</label>
-      <input
-        type="email"
-        formControlName="email"
-        placeholder="you@example.com"
-      />
+      <form [formGroup]="loginForm" (ngSubmit)="submit()">
 
-      <label>Password</label>
-      <input
-        type="password"
-        formControlName="password"
-        placeholder="••••••••"
-      />
+        <label>Email</label>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="you@example.com"
+        />
 
-      <button type="submit" class="primary-btn">
-        Login
-      </button>
-    </form>
+        <label>Password</label>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="••••••••"
+        />
 
-    <p class="switch-auth">
-      Don’t have an account?
-      <a routerLink="/register">Register</a>
-    </p>
+        <button
+          type="submit"
+          class="btn-primary full-width"
+        >
+          Login
+        </button>
 
+      </form>
+
+      <p class="switch-auth">
+        Don’t have an account?
+        <a routerLink="/register">Register</a>
+      </p>
+
+    </div>
   </div>
-</div>
+
+</section>

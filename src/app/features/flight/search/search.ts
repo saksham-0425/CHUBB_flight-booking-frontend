@@ -37,6 +37,16 @@ export class Search implements OnInit {
   }
 
 search() {
+
+  const source = this.source.trim().toUpperCase();
+    const destination = this.destination.trim().toUpperCase();
+
+
+    if (!source || !destination || !this.date) {
+      alert('Please fill all fields.');
+      return;
+    }  
+ 
   if (this.date < this.today) {
     alert('You cannot search flights for past dates.');
     return;
@@ -56,7 +66,6 @@ search() {
     this.flights = res;
   });
 }
-
 getPrice(flight: any): number {
 
   const basePrices: Record<string, number> = {

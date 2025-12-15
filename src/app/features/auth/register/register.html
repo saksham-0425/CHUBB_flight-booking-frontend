@@ -1,38 +1,46 @@
-<nav class="navbar">
-    <div class="logo">✈ AeroFlux</div>
-    <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Flights</a></li>
-        <li><a href="#">Support</a></li>
-    </ul>
-</nav>
+<header class="navbar">
+  <div class="logo">✈ AeroFlux</div>
 
+  <nav>
+    <a routerLink="/">Home</a>
+    <a routerLink="/flights">Flights</a>
+    
+    <a routerLink="/support">Support</a>
+  </nav>
 
-<div class="auth-page">
-  <div class="auth-overlay"></div>
+</header>
 
-  <div class="glass-card register-card">
-    <h2 class="title">Create Account</h2>
-    <p class="subtitle">Join and start booking flights</p>
+<section class="auth-hero">
 
-    <form [formGroup]="registerForm" (ngSubmit)="submit()">
-      <label>Name</label>
-      <input type="text" formControlName="name" placeholder="Your full name" />
+  <div class="auth-left">
+    <div class="auth-card">
 
-      <label>Email</label>
-      <input type="email" formControlName="email" placeholder="you@example.com" />
+      <h2>Create Account</h2>
+      <p class="subtitle">Join and start booking flights</p>
 
-      <label>Password</label>
-      <input type="password" formControlName="password" placeholder="Create a password" />
+      <form [formGroup]="registerForm" (ngSubmit)="submit()">
 
-      <button type="submit" class="primary-btn">
-        Register
-      </button>
-    </form>
+        <label>Name</label>
+        <input type="text" formControlName="name" placeholder="Your full name" />
 
-    <p class="switch-auth">
-      Already have an account?
-      <a routerLink="/login">Login</a>
-    </p>
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="you@example.com" />
+
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="Create a password" />
+
+        <button type="submit" class="btn-primary full-width">
+          Register
+        </button>
+
+      </form>
+
+      <p class="switch-auth">
+        Already have an account?
+        <a routerLink="/login">Login</a>
+      </p>
+
+    </div>
   </div>
-</div>
+
+</section>
