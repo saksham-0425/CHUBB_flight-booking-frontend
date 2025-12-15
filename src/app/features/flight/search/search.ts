@@ -52,6 +52,11 @@ search() {
     return;
   }
 
+    if (source === destination) {
+      alert('Source and destination cannot be the same.');
+      return;
+    }
+
   this.http.get<any[]>(
     'http://localhost:8765/flights/search',
     {
