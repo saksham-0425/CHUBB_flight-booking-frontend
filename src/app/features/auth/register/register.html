@@ -1,31 +1,19 @@
-<div class="register-wrapper">
-  <div class="glass-card register-card">
+<div class="auth-page">
+  <div class="auth-overlay"></div>
 
+  <div class="glass-card register-card">
     <h2 class="title">Create Account</h2>
     <p class="subtitle">Join and start booking flights</p>
 
     <form [formGroup]="registerForm" (ngSubmit)="submit()">
-
       <label>Name</label>
-      <input
-        type="text"
-        formControlName="name"
-        placeholder="Your full name"
-      />
+      <input type="text" formControlName="name" placeholder="Your full name" />
 
       <label>Email</label>
-      <input
-        type="email"
-        formControlName="email"
-        placeholder="you@example.com"
-      />
+      <input type="email" formControlName="email" placeholder="you@example.com" />
 
       <label>Password</label>
-      <input
-        type="password"
-        formControlName="password"
-        placeholder="Create a password"
-      />
+      <input type="password" formControlName="password" placeholder="Create a password" />
 
       <button type="submit" class="primary-btn">
         Register
@@ -36,6 +24,5 @@
       Already have an account?
       <a routerLink="/login">Login</a>
     </p>
-
   </div>
 </div>
