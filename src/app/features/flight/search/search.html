@@ -9,7 +9,16 @@
         <li><a href="#">My Trips</a></li>
         <li><a href="#">Support</a></li>
     </ul>
-    <a href="#" class="login-btn">Login</a>
+     <div class="nav-actions">
+    <ng-container *ngIf="!isLoggedIn">
+      <a class="login-btn" routerLink="/login">Login</a>
+      <a class="login-btn outline" routerLink="/register">Register</a>
+    </ng-container>
+
+    <ng-container *ngIf="isLoggedIn">
+      <a class="login-btn" (click)="logout()">Logout</a>
+    </ng-container>
+  </div>
 </nav>
 
 
@@ -25,14 +34,39 @@
   
     <div class="search-card">
         <h3>Search Flights</h3>
-        <form class="search-form">
-            <input type="text" placeholder="From">
-            <input type="text" placeholder="To">
-            <input type="date">
-            <input type="number" min="1" value="1" placeholder="Passengers">
+        <form class="search-form" (ngSubmit)="search()">
+            <input type="text" placeholder="From" [(ngModel)]="source" name="source" required/>
+            <input type="text" placeholder="To" [(ngModel)]="destination" name="destination" required/>
+            <input type="date" placeholder="yyyy-dd-mm" [(ngModel)]="date"  [min]="today" name="date" required/>
             <button type="submit">Search</button>
+
         </form>
     </div>
+</section>
+
+<section class="results" *ngIf="flights.length > 0">
+  <h2>Available Flights</h2>
+
+  <div class="flight-card" *ngFor="let flight of flights">
+    <div class="flight-info">
+      <h3>{{ flight.airline }}</h3>
+
+      <p class="route">
+        {{ flight.source }}
+        <span class="arrow">→</span>
+        {{ flight.destination }}
+      </p>
+
+      <p>Flight No: {{ flight.flightNumber }}</p>
+      <p>Seats Available: <b>{{ flight.availableSeats }}</b></p>
+    </div>
+
+    <div class="flight-meta">
+      <div class="price">
+        ₹ {{ flight.availableSeats * 10 }}
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- FEATURES -->
