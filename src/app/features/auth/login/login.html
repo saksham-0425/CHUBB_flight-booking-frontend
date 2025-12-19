@@ -18,26 +18,19 @@
       <h2>Welcome Back</h2>
       <p class="subtitle">Login to continue booking</p>
 
+      <div *ngIf="message" class="message" [ngClass]="messageType">
+        {{ message }}
+      </div>
+
       <form [formGroup]="loginForm" (ngSubmit)="submit()">
 
         <label>Email</label>
-        <input
-          type="email"
-          formControlName="email"
-          placeholder="you@example.com"
-        />
+        <input type="email" formControlName="email" placeholder="you@example.com" />
 
         <label>Password</label>
-        <input
-          type="password"
-          formControlName="password"
-          placeholder="••••••••"
-        />
+        <input type="password" formControlName="password" placeholder="••••••••" />
 
-        <button
-          type="submit"
-          class="btn-primary full-width"
-        >
+        <button type="submit" class="btn-primary full-width">
           Login
         </button>
 

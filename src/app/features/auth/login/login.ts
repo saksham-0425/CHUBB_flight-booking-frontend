@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+  FormGroup
+} from '@angular/forms';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
 
 @Component({
@@ -15,26 +20,56 @@ export class Login {
 
   loginForm!: FormGroup;
 
+  message = '';
+  messageType: 'error' | 'success' | 'warning' | '' = '';
+
+  redirectUrl = '/search'; // default
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+
+    // 🔑 read redirect URL (if coming from auth guard)
+    this.route.queryParams.subscribe(params => {
+      if (params['redirect']) {
+        this.redirectUrl = params['redirect'];
+      }
+    });
   }
 
   submit() {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) {
+      this.message = 'Please enter valid credentials';
+      this.messageType = 'warning';
+      return;
+    }
+
+    this.message = '';
+    this.messageType = '';
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (res) => {
         localStorage.setItem('jwt_token', res.token);
-        this.router.navigate(['/search']);
+
+        this.message = 'Login successful';
+        this.messageType = 'success';
+
+        // small delay so user sees message
+        setTimeout(() => {
+          this.router.navigate([this.redirectUrl]);
+        }, 500);
       },
-      error: () => alert('Invalid credentials')
+      error: () => {
+        this.message = 'Invalid email or password';
+        this.messageType = 'error';
+      }
     });
   }
 }

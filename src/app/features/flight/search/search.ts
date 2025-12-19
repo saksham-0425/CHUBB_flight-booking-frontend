@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
 import { HttpClient } from '@angular/common/http';
 
@@ -11,7 +11,6 @@ import { HttpClient } from '@angular/common/http';
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './search.html',
   styleUrls: ['./search.css'],
-
 })
 export class Search implements OnInit {
 
@@ -24,7 +23,8 @@ export class Search implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -36,62 +36,94 @@ export class Search implements OnInit {
     return this.authService.isLoggedIn();
   }
 
-search() {
+  message = '';
+  messageType: 'error' | 'warning' | 'info' | 'success' | '' = '';
 
+ search() {
   const source = this.source.trim().toUpperCase();
-    const destination = this.destination.trim().toUpperCase();
+  const destination = this.destination.trim().toUpperCase();
 
+  // Reset message before every search
+  this.message = '';
+  this.messageType = '';
 
-    if (!source || !destination || !this.date) {
-      alert('Please fill all fields.');
-      return;
-    }  
- 
-  if (this.date < this.today) {
-    alert('You cannot search flights for past dates.');
+  if (!source || !destination || !this.date) {
+    this.message = 'Please fill all fields.';
+    this.messageType = 'warning';
     return;
   }
 
-    if (source === destination) {
-      alert('Source and destination cannot be the same.');
-      return;
-    }
+  if (this.date < this.today) {
+    this.message = 'You cannot search flights for past dates.';
+    this.messageType = 'error';
+    return;
+  }
+
+  if (source === destination) {
+    this.message = 'Source and destination cannot be the same.';
+    this.messageType = 'error';
+    return;
+  }
 
   this.http.get<any[]>(
     'http://localhost:8765/flights/search',
     {
       params: {
-        source: this.source.trim().toUpperCase(),
-        destination: this.destination.trim().toUpperCase(),
+        source,
+        destination,
         date: this.date
       }
     }
-  ).subscribe(res => {
-    this.hasSearched = true; 
-    this.flights = res;
+  ).subscribe({
+    next: (res) => {
+      this.hasSearched = true;
+      this.flights = res;
+
+      if (res.length === 0) {
+        this.message = 'No flights found for selected route.';
+        this.messageType = 'info';
+      } else {
+        this.message = `${res.length} flights found.`;
+        this.messageType = 'success';
+      }
+    },
+    error: () => {
+      this.message = 'Something went wrong while searching flights.';
+      this.messageType = 'error';
+    }
   });
 }
-getPrice(flight: any): number {
 
-  const basePrices: Record<string, number> = {
-    'Air India': 4500,
-    'Indigo': 4000,
-    'Vistara': 5200,
-    'Fly High': 4200
-  };
 
-  let price = basePrices[flight.airline] || 3500;
+  getPrice(flight: any): number {
+    const basePrices: Record<string, number> = {
+      'Air India': 4500,
+      'Indigo': 4000,
+      'Vistara': 5200,
+      'Fly High': 4200
+    };
 
-  if (flight.availableSeats <= 5) {
-    price += 1000;
-  } else if (flight.availableSeats <= 10) {
-    price += 500;
+    let price = basePrices[flight.airline] || 3500;
+
+    if (flight.availableSeats <= 5) {
+      price += 1000;
+    } else if (flight.availableSeats <= 10) {
+      price += 500;
+    }
+
+    return price;
   }
 
-  return price;
-}
+  bookFlight(flight: any) {
+    if (!this.isLoggedIn) {
+      this.router.navigate(['/login']);
+      return;
+    }
 
-
+    this.router.navigate(['/booking'], {
+      state: { flight }
+    });
+  }
 
   logout() {
     this.authService.logout();

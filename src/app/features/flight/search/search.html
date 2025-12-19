@@ -1,144 +1,60 @@
 <!-- NAVBAR -->
 <header class="navbar">
   <div class="logo">✈ AeroFlux</div>
-
-  <nav>
-    <a routerLink="/">Home</a>
-    <a routerLink="/flights">Flights</a>
-    <a routerLink="/my-trips" *ngIf="isLoggedIn">My Trips</a>
-    <a routerLink="/support">Support</a>
-  </nav>
-
-  <div class="nav-actions">
-    <!-- NOT LOGGED IN -->
-    <ng-container *ngIf="!isLoggedIn">
-      <button class="btn-outline" routerLink="/login">
-        Login
-      </button>
-
-      <button class="btn-primary" routerLink="/register">
-        Register
-      </button>
-    </ng-container>
-
-    <!-- LOGGED IN -->
-    <ng-container *ngIf="isLoggedIn">
-      <button class="btn-outline" routerLink="/profile">
-        Profile
-      </button>
-
-      <button class="btn-primary" (click)="logout()">
-        Logout
-      </button>
-    </ng-container>
-  </div>
-</header>
-
-<!-- HERO SECTION -->
+  <nav> <a routerLink="/">Home</a> <a routerLink="/flights">Flights</a> <a routerLink="/my-trips" *ngIf="isLoggedIn">My
+      Trips</a> <a routerLink="/support">Support</a> </nav>
+  <div class="nav-actions"> <!-- NOT LOGGED IN --> <ng-container *ngIf="!isLoggedIn"> <button class="btn-outline"
+        routerLink="/login"> Login </button> <button class="btn-primary" routerLink="/register"> Register </button>
+    </ng-container> <!-- LOGGED IN --> <ng-container *ngIf="isLoggedIn"> <button class="btn-outline"
+        routerLink="/profile"> Profile </button> <button class="btn-primary" (click)="logout()"> Logout </button>
+    </ng-container> </div>
+</header> <!-- HERO SECTION -->
 <section class="hero">
   <div class="hero-left">
     <h1>Book Flights Seamlessly</h1>
-
-    <p>
-      Discover destinations, compare prices, and book flights securely with AeroFlux
-    </p>
-
-    <!-- SEARCH BOX -->
+    <p> Discover destinations, compare prices, and book flights securely with AeroFlux </p> <!-- SEARCH BOX -->
     <form class="search-box" (ngSubmit)="search()" #searchForm="ngForm">
-      <h3>Search Flights</h3>
-
-      <input
-        type="text"
-        placeholder="From"
-        name="source"
-        [(ngModel)]="source"
-        required
-      />
-
-      <input
-        type="text"
-        placeholder="To"
-        name="destination"
-        [(ngModel)]="destination"
-        required
-      />
-
-      <div class="search-row">
-        <input
-          type="date"
-          name="date"
-          [(ngModel)]="date"
-          [min]="today"
-          required
-        />
-
-        <button
-          class="btn-primary"
-          type="submit"
-          
-        >
-          Search
-        </button>
+      <h3>Search Flights</h3> <input type="text" placeholder="From" name="source" [(ngModel)]="source" required />
+      <input type="text" placeholder="To" name="destination" [(ngModel)]="destination" required />
+      <div class="search-row"> <input type="date" name="date" [(ngModel)]="date" [min]="today" required /> <button
+          class="btn-primary" type="submit"> Search </button> </div>
+      <!-- In-App Message -->
+      <div *ngIf="message" class="message" [ngClass]="messageType">
+        {{ message }}
       </div>
+
     </form>
   </div>
-</section>
-
-<!-- RESULTS -->
+</section> <!-- RESULTS -->
 <section class="results" *ngIf="hasSearched">
-
   <h2 *ngIf="flights.length > 0">Available Flights</h2>
-
-  <div
-    class="flight-card"
-    *ngFor="let flight of flights"
-  >
+  <div class="flight-card" *ngFor="let flight of flights">
     <div class="flight-info">
       <h3>{{ flight.airline }}</h3>
-
-      <p class="route">
-        {{ flight.source }}
-        <span>→</span>
-        {{ flight.destination }}
-      </p>
-
+      <p class="route"> {{ flight.source }} <span>→</span> {{ flight.destination }} </p>
       <p>Flight No: {{ flight.flightNumber }}</p>
       <p>Seats Available: <b>{{ flight.availableSeats }}</b></p>
     </div>
-
-    <div class="flight-price">
-      ₹ {{ getPrice(flight) }}
-    </div>
-  </div>
-
-  <!-- NO RESULTS -->
+    <div class="flight-price"> ₹ {{ getPrice(flight) }} </div> <button class="btn-primary" (click)="bookFlight(flight)"
+      [disabled]="flight.availableSeats === 0"> Book Now </button>
+  </div> <!-- NO RESULTS -->
   <div class="no-results" *ngIf="flights.length === 0">
     <h3>No Flights Found</h3>
     <p>Try changing source, destination or date.</p>
   </div>
-
-</section>
-
-
-<!-- FEATURES -->
+</section> <!-- FEATURES -->
 <section class="features">
   <div class="feature">
     <h3>Best Prices</h3>
     <p>We offer competitive fares across multiple airlines.</p>
   </div>
-
   <div class="feature">
     <h3>Secure Payments</h3>
     <p>Your transactions are encrypted and protected.</p>
   </div>
-
   <div class="feature">
     <h3>24/7 Support</h3>
     <p>Our support team is always available for you.</p>
   </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  © 2025 AeroFlux. All rights reserved.
-</footer>
+</section> <!-- FOOTER -->
+<footer> © 2025 AeroFlux. All rights reserved. </footer>

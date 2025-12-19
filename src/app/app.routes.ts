@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-
+import { TrackBooking } from './pages/track-booking/track-booking';
+import { authGuard } from './core/guards/auth-guard';
 export const routes: Routes = [
   {
     path: '',
@@ -22,6 +23,20 @@ export const routes: Routes = [
     path: 'search',
     loadComponent: () =>
       import('./features/flight/search/search').then(m => m.Search)
+  },
+  
+  {
+  path: 'booking',
+  loadComponent: () =>
+    import('./features/booking/booking/booking')
+      .then(m => m.Booking)
+},
+
+ 
+  {
+    path: 'track-booking',
+    component: TrackBooking,
+    canActivate: [authGuard]
   },
 
 

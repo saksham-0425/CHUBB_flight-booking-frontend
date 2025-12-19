@@ -1,0 +1,33 @@
+<h2>Track Booking</h2>
+
+<div class="track-form">
+  <input
+    type="text"
+    placeholder="Enter PNR"
+    [(ngModel)]="pnr"
+  />
+
+  <button (click)="searchBooking()" [disabled]="isLoading">
+    Search
+  </button>
+</div>
+
+<!-- In-app message -->
+<div *ngIf="message" class="message" [ngClass]="messageType">
+  {{ message }}
+</div>
+
+<div *ngIf="booking" class="booking-card">
+  <p><strong>PNR:</strong> {{ booking.pnr }}</p>
+  <p><strong>Flight ID:</strong> {{ booking.flightId }}</p>
+  <p><strong>Passenger:</strong> {{ booking.passengerName }}</p>
+  <p><strong>Email:</strong> {{ booking.email }}</p>
+  <p><strong>Seats:</strong> {{ booking.seats }}</p>
+  <p>
+    <strong>Status:</strong>
+    <span [class.cancelled]="booking.status === 'CANCELLED'">
+      {{ booking.status }}
+    </span>
+  </p>
+</div>
+
