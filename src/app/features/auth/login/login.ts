@@ -35,8 +35,6 @@ export class Login {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-
-    // 🔑 read redirect URL (if coming from auth guard)
     this.route.queryParams.subscribe(params => {
       if (params['redirect']) {
         this.redirectUrl = params['redirect'];
@@ -61,7 +59,6 @@ export class Login {
         this.message = 'Login successful';
         this.messageType = 'success';
 
-        // small delay so user sees message
         setTimeout(() => {
           this.router.navigate([this.redirectUrl]);
         }, 500);

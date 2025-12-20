@@ -8,11 +8,10 @@
   />
 
   <button (click)="searchBooking()" [disabled]="isLoading">
-    Search
+    {{ isLoading ? 'Searching...' : 'Search' }}
   </button>
 </div>
 
-<!-- In-app message -->
 <div *ngIf="message" class="message" [ngClass]="messageType">
   {{ message }}
 </div>
@@ -23,11 +22,45 @@
   <p><strong>Passenger:</strong> {{ booking.passengerName }}</p>
   <p><strong>Email:</strong> {{ booking.email }}</p>
   <p><strong>Seats:</strong> {{ booking.seats }}</p>
+
   <p>
     <strong>Status:</strong>
     <span [class.cancelled]="booking.status === 'CANCELLED'">
       {{ booking.status }}
     </span>
   </p>
+
+  <button
+    *ngIf="booking.status === 'CONFIRMED'"
+    class="cancel-btn"
+    (click)="openCancelConfirm()"
+    [disabled]="isCancelling"
+  >
+    Cancel Ticket
+  </button>
 </div>
 
+<div class="modal-backdrop" *ngIf="showCancelConfirm">
+  <div class="modal">
+    <h3>Confirm Cancellation</h3>
+
+    <p>
+      Are you sure you want to cancel this ticket?
+    </p>
+    <p><strong>PNR:</strong> {{ booking?.pnr }}</p>
+
+    <div class="modal-actions">
+      <button
+        class="danger"
+        (click)="confirmCancel()"
+        [disabled]="isCancelling"
+      >
+        {{ isCancelling ? 'Cancelling...' : 'Yes, Cancel' }}
+      </button>
+
+      <button (click)="closeCancelConfirm()" [disabled]="isCancelling">
+        No
+      </button>
+    </div>
+  </div>
+</div>

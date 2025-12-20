@@ -35,8 +35,7 @@ export const routes: Routes = [
  
   {
     path: 'track-booking',
-    component: TrackBooking,
-    canActivate: [authGuard]
+    component: TrackBooking
   },
 
 

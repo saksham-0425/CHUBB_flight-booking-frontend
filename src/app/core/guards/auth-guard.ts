@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth';
 
-export const authGuard: CanActivateFn = () => {
+export const authGuard = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
@@ -11,7 +11,7 @@ export const authGuard: CanActivateFn = () => {
   }
 
   router.navigate(['/login'], {
-    queryParams: { redirect: '/track-booking' }
+    queryParams: { redirect: 'track-booking' }
   });
 
   return false;
