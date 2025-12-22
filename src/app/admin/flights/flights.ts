@@ -38,7 +38,7 @@ export class Flights implements OnInit {
         console.log('Flights received:', data);
         this.flights = data ?? [];
         this.loading = false;
-        this.cdr.detectChanges(); // 🔥 key line
+        this.cdr.detectChanges(); 
       },
       error: () => {
         this.error = 'Failed to load flights';
