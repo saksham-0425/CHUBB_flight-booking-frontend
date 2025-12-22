@@ -1,2 +1,48 @@
-<h1>Welcome, Admin</h1>
-<p>Manage flights, bookings, and users from here.</p>
+<div class="dashboard-container">
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1>Welcome, Admin 👋</h1>
+    <p>Manage flights, bookings, and users from one place.</p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Total Flights</h3>
+      <p class="stat-number">128</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Total Bookings</h3>
+      <p class="stat-number">1,024</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Registered Users</h3>
+      <p class="stat-number">342</p>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="actions-section">
+    <h2>Quick Actions</h2>
+
+    <div class="actions-grid">
+      <button
+  class="action-btn primary"
+  routerLink="/admin/add-flight"
+>
+  ➕ Add New Flight
+</button>
+
+<button
+  class="action-btn"
+  routerLink="/admin/flights"
+>
+  ✈️ View Flights
+</button>
+    </div>
+  </div>
+
+</div>

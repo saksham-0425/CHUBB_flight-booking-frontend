@@ -22,7 +22,8 @@ export class EditFlight implements OnInit {
   flightId!: string;
 
   message = '';
-  messageType: 'success' | 'error' | '' = '';
+  messageType: 'success' | 'error' | 'warning' | '' = '';
+  submitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -37,8 +38,8 @@ export class EditFlight implements OnInit {
     this.flightForm = this.fb.group({
       flightNumber: ['', Validators.required],
       airline: ['', Validators.required],
-      source: ['', Validators.required],
-      destination: ['', Validators.required],
+      source: ['', [Validators.required, Validators.minLength(3)]],
+      destination: ['', [Validators.required, Validators.minLength(3)]],
       date: ['', Validators.required],
       availableSeats: ['', [Validators.required, Validators.min(1)]]
     });
@@ -52,8 +53,20 @@ export class EditFlight implements OnInit {
     });
   }
 
+  get f() {
+    return this.flightForm.controls;
+  }
+
   submit() {
-    if (this.flightForm.invalid) return;
+    if (this.flightForm.invalid) {
+      this.message = 'Please correct the highlighted errors';
+      this.messageType = 'warning';
+      return;
+    }
+
+    this.submitting = true;
+    this.message = '';
+    this.messageType = '';
 
     this.flightService
       .updateFlight(this.flightId, this.flightForm.value)
@@ -61,12 +74,22 @@ export class EditFlight implements OnInit {
         next: () => {
           this.message = 'Flight updated successfully';
           this.messageType = 'success';
-          setTimeout(() => this.router.navigate(['/admin/flights']), 800);
+          this.submitting = false;
+
+          setTimeout(() => {
+            this.router.navigate(['/admin/flights']);
+          }, 800);
         },
         error: () => {
           this.message = 'Update failed';
           this.messageType = 'error';
+          this.submitting = false;
         }
       });
   }
+
+  cancel(): void {
+  this.router.navigate(['/admin/flights']);
+}
+
 }

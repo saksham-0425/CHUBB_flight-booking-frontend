@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminFlightService } from '../services/admin-flight';
-import { Router, NavigationEnd } from '@angular/router';
-import { Subscription, filter } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-flights',
@@ -11,25 +10,23 @@ import { Subscription, filter } from 'rxjs';
   templateUrl: './flights.html',
   styleUrl: './flights.css'
 })
-export class Flights implements OnInit, OnDestroy {
+export class Flights implements OnInit {
 
   flights: any[] = [];
-  loading = false;
+  loading = true;
   error = '';
 
-  private routerSub!: Subscription;
+  showConfirmPopup = false;
+  selectedFlightId: string | null = null;
 
   constructor(
     private flightService: AdminFlightService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.fetchFlights();
-  }
-
-  ngOnDestroy(): void {
-    this.routerSub?.unsubscribe();
   }
 
   fetchFlights(): void {
@@ -38,32 +35,48 @@ export class Flights implements OnInit, OnDestroy {
 
     this.flightService.getAllFlights().subscribe({
       next: (data) => {
+        console.log('Flights received:', data);
         this.flights = data ?? [];
         this.loading = false;
+        this.cdr.detectChanges(); // 🔥 key line
       },
       error: () => {
         this.error = 'Failed to load flights';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   editFlight(id: string): void {
-  this.router.navigate(['/admin/flights/edit', id]);
-}
+    this.router.navigate(['/admin/flights/edit', id]);
+  }
 
-  deleteFlight(id: string): void {
-  if (!confirm('Are you sure you want to delete this flight?')) return;
+  openDeletePopup(id: string): void {
+    this.selectedFlightId = id;
+    this.showConfirmPopup = true;
+  }
 
-  this.flightService.deleteFlight(id).subscribe({
-    next: () => {
-      
-      this.flights = this.flights.filter(f => f.id !== id);
-    },
-    error: (err) => {
-      console.error('Delete error:', err);
-      alert('Failed to delete flight');
-    }
-  });
-}
+  cancelDelete(): void {
+    this.showConfirmPopup = false;
+    this.selectedFlightId = null;
+  }
+
+  confirmDelete(): void {
+    if (!this.selectedFlightId) return;
+
+    this.flightService.deleteFlight(this.selectedFlightId).subscribe({
+      next: () => {
+        this.flights = this.flights.filter(
+          f => f.id !== this.selectedFlightId
+        );
+        this.cancelDelete();
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        alert('Failed to delete flight');
+        this.cancelDelete();
+      }
+    });
+  }
 }

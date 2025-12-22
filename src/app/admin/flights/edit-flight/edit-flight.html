@@ -1,26 +1,86 @@
-<h2>Edit Flight</h2>
+<div class="form-container">
 
-<form [formGroup]="flightForm" (ngSubmit)="submit()">
+  <div class="form-card">
 
-  <label>Flight Number</label>
-  <input formControlName="flightNumber" />
+    <h2>Edit Flight</h2>
+    <p class="subtitle">Update flight details below</p>
 
-  <label>Airline</label>
-  <input formControlName="airline" />
+    <!-- In-app message -->
+    <div *ngIf="message" class="alert" [ngClass]="messageType">
+      {{ message }}
+    </div>
 
-  <label>Source</label>
-  <input formControlName="source" />
+    <form [formGroup]="flightForm" (ngSubmit)="submit()">
 
-  <label>Destination</label>
-  <input formControlName="destination" />
+      <div class="form-grid">
 
-  <label>Date</label>
-  <input type="date" formControlName="date" />
+        <div class="form-group">
+          <label>Flight Number</label>
+          <input formControlName="flightNumber" />
+          <small *ngIf="f['flightNumber'].touched && f['flightNumber'].invalid">
+            Flight number is required
+          </small>
+        </div>
 
-  <label>Available Seats</label>
-  <input type="number" formControlName="availableSeats" />
+        <div class="form-group">
+          <label>Airline</label>
+          <input formControlName="airline" />
+          <small *ngIf="f['airline'].touched && f['airline'].invalid">
+            Airline is required
+          </small>
+        </div>
 
-  <button type="submit">Update Flight</button>
-</form>
+        <div class="form-group">
+          <label>Source</label>
+          <input formControlName="source" />
+          <small *ngIf="f['source'].touched && f['source'].invalid">
+            Minimum 3 characters required
+          </small>
+        </div>
 
-<p *ngIf="message" [class]="messageType">{{ message }}</p>
+        <div class="form-group">
+          <label>Destination</label>
+          <input formControlName="destination" />
+          <small *ngIf="f['destination'].touched && f['destination'].invalid">
+            Minimum 3 characters required
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" formControlName="date" />
+          <small *ngIf="f['date'].touched && f['date'].invalid">
+            Please select a valid date
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Available Seats</label>
+          <input type="number" formControlName="availableSeats" />
+          <small *ngIf="f['availableSeats'].touched && f['availableSeats'].invalid">
+            Seats must be at least 1
+          </small>
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <button type="submit" [disabled]="submitting">
+          {{ submitting ? 'Updating...' : 'Update Flight' }}
+        </button>
+
+        <button
+  type="button"
+  class="secondary"
+  (click)="cancel()"
+>
+  Cancel
+</button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

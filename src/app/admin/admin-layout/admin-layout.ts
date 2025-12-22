@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../core/services/auth';
-
-
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../core/services/auth';
 
 @Component({
   selector: 'app-admin-layout',
@@ -20,10 +17,16 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminLayout {
 
+  sidebarOpen = true;
+
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
+
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
 
   get isAdminLoggedIn(): boolean {
     return this.authService.isLoggedIn() && this.authService.isAdmin();
@@ -32,8 +35,4 @@ export class AdminLayout {
   logout(): void {
     this.authService.logout();
   }
-
-  goToProfile(): void {
-  alert('Profile page coming soon');
-}
 }

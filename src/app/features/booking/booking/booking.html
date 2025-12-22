@@ -1,48 +1,95 @@
-<h2>Confirm Booking</h2>
+<div class="booking-container">
 
-<!-- Flight Summary -->
-<div class="card">
-  <p><b>Airline:</b> {{ flight.airline }}</p>
-  <p><b>Route:</b> {{ flight.source }} → {{ flight.destination }}</p>
-  <p><b>Date:</b> {{ flight.date }}</p>
-  <p><b>Available Seats:</b> {{ flight.availableSeats }}</p>
-</div>
+  <div class="booking-card">
 
-<!-- Booking Form (hidden after success) -->
-<div *ngIf="!pnr">
-  <label>Passenger Name</label>
-  <input [(ngModel)]="passengerName" />
+    <h2>Confirm Your Booking</h2>
+    <p class="subtitle">
+      Review flight details and enter passenger information
+    </p>
 
-  <label>Email</label>
-  <input [(ngModel)]="email" />
+    <!-- Flight Summary -->
+    <div class="flight-summary">
+      <div>
+        <span>Airline</span>
+        <strong>{{ flight.airline }}</strong>
+      </div>
 
-  <label>Seats</label>
-  <input
-    type="number"
-    [(ngModel)]="seats"
-    [min]="1"
-    [max]="flight.availableSeats"
-  />
+      <div>
+        <span>Route</span>
+        <strong>{{ flight.source }} → {{ flight.destination }}</strong>
+      </div>
 
-  <button
-    [disabled]="isSubmitting"
-    (click)="confirmBooking()">
-    Confirm Booking
-  </button>
-</div>
+      <div>
+        <span>Date</span>
+        <strong>{{ flight.date }}</strong>
+      </div>
 
-<!-- In-app Message -->
-<div *ngIf="message" class="message" [ngClass]="messageType">
-  {{ message }}
-</div>
+      <div>
+        <span>Available Seats</span>
+        <strong>{{ flight.availableSeats }}</strong>
+      </div>
+    </div>
 
-<!-- Post-booking Actions -->
-<div *ngIf="pnr" class="booking-actions">
-  <button (click)="goToTrackBooking()">
-    Track Booking
-  </button>
+    <!-- In-app message -->
+    <div *ngIf="message" class="alert" [ngClass]="messageType">
+      {{ message }}
+    </div>
 
-  <button (click)="goToHome()">
-    Go to Home
-  </button>
+    <!-- Booking Form -->
+    <form *ngIf="!pnr" class="booking-form">
+
+      <div class="form-group">
+        <label>Passenger Name</label>
+        <input
+          type="text"
+          name="passengerName"
+          [(ngModel)]="passengerName"
+          placeholder="John Doe"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="john@example.com"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Seats</label>
+        <input
+          type="number"
+          name="seats"
+          [(ngModel)]="seats"
+          [min]="1"
+          [max]="flight.availableSeats"
+        />
+      </div>
+
+      <button
+        type="button"
+        [disabled]="isSubmitting"
+        (click)="confirmBooking()"
+      >
+        {{ isSubmitting ? 'Confirming...' : 'Confirm Booking' }}
+      </button>
+
+    </form>
+
+    <!-- Post booking actions -->
+    <div *ngIf="pnr" class="booking-actions">
+      <button class="primary" (click)="goToTrackBooking()">
+        Track Booking
+      </button>
+
+      <button class="secondary" (click)="goToHome()">
+        Go to Home
+      </button>
+    </div>
+
+  </div>
+
 </div>

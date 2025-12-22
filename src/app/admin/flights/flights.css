@@ -18,3 +18,59 @@ button {
 
 .success { color: green; }
 .error { color: red; }
+
+.confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirm-box {
+  background: white;
+  padding: 20px 24px;
+  border-radius: 10px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.confirm-box h3 {
+  margin-bottom: 10px;
+}
+
+.confirm-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.confirm-actions button {
+  padding: 8px 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.danger {
+  background: #ef4444;
+  color: white;
+}
+
+.secondary {
+  background: #e5e7eb;
+}
+.edit-btn {
+  background: #2563eb;
+  color: white;
+  margin-right: 6px;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}

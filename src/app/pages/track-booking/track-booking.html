@@ -1,53 +1,87 @@
-<h2>Track Booking</h2>
+<div class="track-container">
 
-<div class="track-form">
-  <input
-    type="text"
-    placeholder="Enter PNR"
-    [(ngModel)]="pnr"
-  />
+  <div class="track-card">
 
-  <button (click)="searchBooking()" [disabled]="isLoading">
-    {{ isLoading ? 'Searching...' : 'Search' }}
-  </button>
+    <h2>Track Your Booking</h2>
+    <p class="subtitle">
+      Enter your PNR to view booking details or cancel your ticket
+    </p>
+
+    <!-- Search Form -->
+    <div class="track-form">
+      <input
+        type="text"
+        placeholder="Enter PNR (e.g. AB1234)"
+        [(ngModel)]="pnr"
+      />
+
+      <button (click)="searchBooking()" [disabled]="isLoading">
+        {{ isLoading ? 'Searching...' : 'Search' }}
+      </button>
+    </div>
+
+    <!-- In-app Message -->
+    <div *ngIf="message" class="alert" [ngClass]="messageType">
+      {{ message }}
+    </div>
+
+    <!-- Booking Details -->
+    <div *ngIf="booking" class="booking-details">
+
+      <div class="details-grid">
+        <div>
+          <span>PNR</span>
+          <strong>{{ booking.pnr }}</strong>
+        </div>
+
+        <div>
+          <span>Passenger</span>
+          <strong>{{ booking.passengerName }}</strong>
+        </div>
+
+        <div>
+          <span>Email</span>
+          <strong>{{ booking.email }}</strong>
+        </div>
+
+        <div>
+          <span>Seats</span>
+          <strong>{{ booking.seats }}</strong>
+        </div>
+
+        <div>
+          <span>Status</span>
+          <strong
+            [class.confirmed]="booking.status === 'CONFIRMED'"
+            [class.cancelled]="booking.status === 'CANCELLED'"
+          >
+            {{ booking.status }}
+          </strong>
+        </div>
+      </div>
+
+      <button
+        *ngIf="booking.status === 'CONFIRMED'"
+        class="danger"
+        (click)="openCancelConfirm()"
+        [disabled]="isCancelling"
+      >
+        Cancel Ticket
+      </button>
+    </div>
+
+  </div>
+
 </div>
 
-<div *ngIf="message" class="message" [ngClass]="messageType">
-  {{ message }}
-</div>
-
-<div *ngIf="booking" class="booking-card">
-  <p><strong>PNR:</strong> {{ booking.pnr }}</p>
-  <p><strong>Flight ID:</strong> {{ booking.flightId }}</p>
-  <p><strong>Passenger:</strong> {{ booking.passengerName }}</p>
-  <p><strong>Email:</strong> {{ booking.email }}</p>
-  <p><strong>Seats:</strong> {{ booking.seats }}</p>
-
-  <p>
-    <strong>Status:</strong>
-    <span [class.cancelled]="booking.status === 'CANCELLED'">
-      {{ booking.status }}
-    </span>
-  </p>
-
-  <button
-    *ngIf="booking.status === 'CONFIRMED'"
-    class="cancel-btn"
-    (click)="openCancelConfirm()"
-    [disabled]="isCancelling"
-  >
-    Cancel Ticket
-  </button>
-</div>
-
+<!-- Cancel Confirmation Modal -->
 <div class="modal-backdrop" *ngIf="showCancelConfirm">
   <div class="modal">
-    <h3>Confirm Cancellation</h3>
 
-    <p>
-      Are you sure you want to cancel this ticket?
-    </p>
-    <p><strong>PNR:</strong> {{ booking?.pnr }}</p>
+    <h3>Confirm Cancellation</h3>
+    <p>Are you sure you want to cancel this booking?</p>
+
+    <p class="pnr"><strong>PNR:</strong> {{ booking?.pnr }}</p>
 
     <div class="modal-actions">
       <button
@@ -58,7 +92,11 @@
         {{ isCancelling ? 'Cancelling...' : 'Yes, Cancel' }}
       </button>
 
-      <button (click)="closeCancelConfirm()" [disabled]="isCancelling">
+      <button
+        class="secondary"
+        (click)="closeCancelConfirm()"
+        [disabled]="isCancelling"
+      >
         No
       </button>
     </div>

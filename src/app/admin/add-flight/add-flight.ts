@@ -21,13 +21,14 @@ export class AddFlight {
 
   message = '';
   messageType: 'success' | 'error' | 'warning' | '' = '';
+  submitting = false;
 
   constructor(
     private fb: FormBuilder,
     private flightService: AdminFlightService
   ) {
     this.flightForm = this.fb.group({
-      flightNumber: ['', Validators.required],
+      flightNumber: ['', [Validators.required, Validators.pattern(/^[A-Z0-9-]+$/)]],
       airline: ['', Validators.required],
       source: ['', [Validators.required, Validators.minLength(3)]],
       destination: ['', [Validators.required, Validators.minLength(3)]],
@@ -36,23 +37,32 @@ export class AddFlight {
     });
   }
 
+  get f() {
+    return this.flightForm.controls;
+  }
+
   submit() {
     if (this.flightForm.invalid) {
-      this.message = 'Please fill all fields correctly';
+      this.message = 'Please correct the highlighted errors';
       this.messageType = 'warning';
       return;
     }
+
+    this.submitting = true;
+    this.message = '';
+    this.messageType = '';
 
     this.flightService.addFlight(this.flightForm.value).subscribe({
       next: () => {
         this.message = 'Flight added successfully';
         this.messageType = 'success';
         this.flightForm.reset();
+        this.submitting = false;
       },
-      error: (err) => {
-        console.error(err);
+      error: () => {
         this.message = 'Failed to add flight';
         this.messageType = 'error';
+        this.submitting = false;
       }
     });
   }

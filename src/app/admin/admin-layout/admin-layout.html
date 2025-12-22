@@ -1,26 +1,46 @@
 <div class="admin-container">
-  <aside class="sidebar">
-    <h2>Admin Panel</h2>
 
-    <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
-    <a routerLink="/admin/flights" routerLinkActive="active">Flights</a>
-    <a routerLink="/admin/add-flight" routerLinkActive="active">Add Flight</a>
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="!sidebarOpen">
 
-    <!-- Admin Actions -->
-    <div class="admin-actions" *ngIf="isAdminLoggedIn">
-      <hr />
-
-      <button class="profile-btn" (click)="goToProfile()">
-        Profile
-      </button>
-
-      <button class="logout-btn" (click)="logout()">
-        Logout
-      </button>
+    <div class="sidebar-header">
+      <span class="logo">✈ AeroFlux</span>
     </div>
+
+    <nav class="sidebar-links">
+      <a routerLink="/admin/dashboard" routerLinkActive="active">
+        📊 <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/admin/flights" routerLinkActive="active">
+        ✈️ <span>Flights</span>
+      </a>
+
+      <a routerLink="/admin/add-flight" routerLinkActive="active">
+        ➕ <span>Add Flight</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer" *ngIf="isAdminLoggedIn">
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+
   </aside>
 
-  <main class="content">
-    <router-outlet></router-outlet>
-  </main>
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <button class="menu-btn" (click)="toggleSidebar()">
+        ☰
+      </button>
+    </header>
+
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
 </div>
