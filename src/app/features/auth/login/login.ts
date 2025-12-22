@@ -43,30 +43,34 @@ export class Login {
   }
 
   submit() {
-    if (this.loginForm.invalid) {
-      this.message = 'Please enter valid credentials';
-      this.messageType = 'warning';
-      return;
-    }
-
-    this.message = '';
-    this.messageType = '';
-
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (res) => {
-        localStorage.setItem('jwt_token', res.token);
-
-        this.message = 'Login successful';
-        this.messageType = 'success';
-
-        setTimeout(() => {
-          this.router.navigate([this.redirectUrl]);
-        }, 500);
-      },
-      error: () => {
-        this.message = 'Invalid email or password';
-        this.messageType = 'error';
-      }
-    });
+  if (this.loginForm.invalid) {
+    this.message = 'Please enter valid credentials';
+    this.messageType = 'warning';
+    return;
   }
+
+  this.message = '';
+  this.messageType = '';
+
+  this.authService.login(this.loginForm.value).subscribe({
+    next: (res) => {
+      localStorage.setItem('jwt_token', res.token);
+
+      this.message = 'Login successful';
+      this.messageType = 'success';
+
+      setTimeout(() => {
+        if (this.authService.isAdmin()) {
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          this.router.navigate([this.redirectUrl]);
+        }
+      }, 500);
+    },
+    error: () => {
+      this.message = 'Invalid email or password';
+      this.messageType = 'error';
+    }
+  });
+}
 }

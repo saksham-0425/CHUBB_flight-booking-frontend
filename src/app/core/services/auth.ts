@@ -32,4 +32,26 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('jwt_token');
   }
+
+  // 🔽 NEW CODE (IMPORTANT)
+
+  private getTokenPayload(): any {
+    const token = localStorage.getItem('jwt_token');
+    if (!token) return null;
+
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch {
+      return null;
+    }
+  }
+
+  getRoles(): string[] {
+    const payload = this.getTokenPayload();
+    return payload?.roles || [];
+  }
+
+  isAdmin(): boolean {
+    return this.getRoles().includes('ROLE_ADMIN');
+  }
 }

@@ -11,7 +11,7 @@ export const authGuard = () => {
   }
 
   router.navigate(['/login'], {
-    queryParams: { redirect: 'track-booking' }
+    queryParams: { redirect: router.url }
   });
 
   return false;
