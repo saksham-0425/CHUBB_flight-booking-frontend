@@ -60,4 +60,12 @@ export class AuthService {
   isAdmin(): boolean {
     return this.getRoles().includes('ROLE_ADMIN');
   }
+
+  changePassword(oldPassword: string, newPassword: string) {
+  return this.http.put(
+    `${this.baseUrl}/change-password`,
+    { oldPassword, newPassword },
+    { responseType: 'text' }
+  );
+}
 }

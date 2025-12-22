@@ -1,14 +1,33 @@
 <!-- NAVBAR -->
 <header class="navbar">
   <div class="logo">✈ AeroFlux</div>
-  <nav> <a routerLink="/">Home</a> <a routerLink="/flights">Flights</a> <a routerLink="/my-trips" *ngIf="isLoggedIn">My
-      Trips</a> <a routerLink="/support">Support</a> </nav>
-  <div class="nav-actions"> <!-- NOT LOGGED IN --> <ng-container *ngIf="!isLoggedIn"> <button class="btn-outline"
-        routerLink="/login"> Login </button> <button class="btn-primary" routerLink="/register"> Register </button>
-    </ng-container> <!-- LOGGED IN --> <ng-container *ngIf="isLoggedIn"> <button class="btn-outline"
-        routerLink="/profile"> Profile </button> <button class="btn-primary" (click)="logout()"> Logout </button>
-    </ng-container> </div>
-</header> <!-- HERO SECTION -->
+
+  <nav>
+    <a routerLink="/">Home</a>
+    <a routerLink="/flights">Flights</a>
+    <a routerLink="/my-trips" *ngIf="isLoggedIn">My Trips</a>
+    <a routerLink="/support">Support</a>
+  </nav>
+
+  <div class="nav-actions">
+
+    <!-- NOT LOGGED IN -->
+    <ng-container *ngIf="!isLoggedIn">
+      <button class="btn-outline" routerLink="/login">Login</button>
+      <button class="btn-primary" routerLink="/register">Register</button>
+    </ng-container>
+
+    <!-- LOGGED IN -->
+    <ng-container *ngIf="isLoggedIn">
+      <button class="btn-outline" routerLink="/change-password">
+        Change Password
+      </button>
+      <button class="btn-primary" (click)="logout()">Logout</button>
+    </ng-container>
+
+  </div>
+</header>
+<!-- HERO SECTION -->
 <section class="hero">
   <div class="hero-left">
     <h1>Book Flights Seamlessly</h1>

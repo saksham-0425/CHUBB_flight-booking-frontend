@@ -49,6 +49,14 @@ export const routes: Routes = [
       .then(m => m.ADMIN_ROUTES)
 },
 
+{
+  path: 'change-password',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/auth/change-password/change-password')
+      .then(m => m.ChangePassword)
+},
+
   {
     path: '**',
     redirectTo: 'search'
