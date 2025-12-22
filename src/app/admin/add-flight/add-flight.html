@@ -1,1 +1,28 @@
-<p>add-flight works!</p>
+<h2>Add New Flight</h2>
+
+<form [formGroup]="flightForm" (ngSubmit)="submit()">
+
+  <label>Flight Number</label>
+  <input type="text" formControlName="flightNumber" placeholder="AI001" />
+
+  <label>Airline</label>
+  <input type="text" formControlName="airline" placeholder="Air India" />
+
+  <label>Source</label>
+  <input type="text" formControlName="source" placeholder="LKO" />
+
+  <label>Destination</label>
+  <input type="text" formControlName="destination" placeholder="HYD" />
+
+  <label>Date</label>
+  <input type="date" formControlName="date" />
+
+  <label>Available Seats</label>
+  <input type="number" formControlName="availableSeats" />
+
+  <button type="submit">Add Flight</button>
+</form>
+
+<p *ngIf="message" [class]="messageType">
+  {{ message }}
+</p>

@@ -1,0 +1,26 @@
+<h2>Edit Flight</h2>
+
+<form [formGroup]="flightForm" (ngSubmit)="submit()">
+
+  <label>Flight Number</label>
+  <input formControlName="flightNumber" />
+
+  <label>Airline</label>
+  <input formControlName="airline" />
+
+  <label>Source</label>
+  <input formControlName="source" />
+
+  <label>Destination</label>
+  <input formControlName="destination" />
+
+  <label>Date</label>
+  <input type="date" formControlName="date" />
+
+  <label>Available Seats</label>
+  <input type="number" formControlName="availableSeats" />
+
+  <button type="submit">Update Flight</button>
+</form>
+
+<p *ngIf="message" [class]="messageType">{{ message }}</p>

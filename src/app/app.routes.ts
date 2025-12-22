@@ -42,12 +42,12 @@ export const routes: Routes = [
   },
 
   // 🔽 ADMIN ROUTES (COMING NEXT)
-  {
-    path: 'admin',
-    canActivate: [authGuard],
-    loadChildren: () =>
-      import('./admin/admin.routes').then(m => m.ADMIN_ROUTES)
-  },
+{
+  path: 'admin',
+  loadChildren: () =>
+    import('./admin/admin.routes')
+      .then(m => m.ADMIN_ROUTES)
+},
 
   {
     path: '**',

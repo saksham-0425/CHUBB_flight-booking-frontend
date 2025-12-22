@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-layout',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './admin-layout.html',
-  styleUrl: './admin-layout.css',
+  styleUrl: './admin-layout.css'
 })
-export class AdminLayout {
-
-}
+export class AdminLayout {}
