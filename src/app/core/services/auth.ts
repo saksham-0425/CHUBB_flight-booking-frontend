@@ -33,8 +33,6 @@ export class AuthService {
     return !!localStorage.getItem('jwt_token');
   }
 
-  // 🔽 NEW CODE (IMPORTANT)
-
   private getTokenPayload(): any {
     const token = localStorage.getItem('jwt_token');
     if (!token) return null;
