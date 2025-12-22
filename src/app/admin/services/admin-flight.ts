@@ -29,7 +29,10 @@ addFlight(payload: any) {
     return this.http.put(`${this.baseUrl}/admin/${id}`, payload);
   }
 
-  deleteFlight(id: string) {
-    return this.http.delete(`${this.baseUrl}/admin/${id}`);
-  }
+ deleteFlight(id: string) {
+  return this.http.delete(
+    `${this.baseUrl}/admin/${id}`,
+    { responseType: 'text' }
+  );
+}
 }

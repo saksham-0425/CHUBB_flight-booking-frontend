@@ -2,9 +2,22 @@
   <aside class="sidebar">
     <h2>Admin Panel</h2>
 
-    <a routerLink="/admin/dashboard">Dashboard</a>
-    <a routerLink="/admin/flights">Flights</a>
-    <a routerLink="/admin/add-flight">Add Flight</a>
+    <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+    <a routerLink="/admin/flights" routerLinkActive="active">Flights</a>
+    <a routerLink="/admin/add-flight" routerLinkActive="active">Add Flight</a>
+
+    <!-- Admin Actions -->
+    <div class="admin-actions" *ngIf="isAdminLoggedIn">
+      <hr />
+
+      <button class="profile-btn" (click)="goToProfile()">
+        Profile
+      </button>
+
+      <button class="logout-btn" (click)="logout()">
+        Logout
+      </button>
+    </div>
   </aside>
 
   <main class="content">

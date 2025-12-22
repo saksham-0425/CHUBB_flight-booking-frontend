@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -7,8 +8,12 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   private baseUrl = 'http://localhost:8765/auth';
+  private TOKEN_KEY = 'jwt_token';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   register(data: any) {
     return this.http.post(
@@ -19,22 +24,25 @@ export class AuthService {
   }
 
   login(data: any) {
-    return this.http.post<any>(
-      `${this.baseUrl}/login`,
-      data
-    );
+    return this.http.post<any>(`${this.baseUrl}/login`, data);
   }
 
-  logout() {
-    localStorage.removeItem('jwt_token');
+  // ✅ call this after successful login
+  saveToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+    this.router.navigate(['/search']);
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('jwt_token');
+    return !!localStorage.getItem(this.TOKEN_KEY);
   }
 
   private getTokenPayload(): any {
-    const token = localStorage.getItem('jwt_token');
+    const token = localStorage.getItem(this.TOKEN_KEY);
     if (!token) return null;
 
     try {

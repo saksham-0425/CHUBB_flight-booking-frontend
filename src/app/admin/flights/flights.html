@@ -1,38 +1,44 @@
 <h2>All Flights</h2>
 
-<p *ngIf="message" [class]="messageType">{{ message }}</p>
+<!-- Loading state -->
+<p *ngIf="loading">Loading flights...</p>
 
-<ng-container *ngIf="flights.length > 0; else noFlights">
-  <table>
-    <thead>
-      <tr>
-        <th>Flight No</th>
-        <th>Airline</th>
-        <th>Source</th>
-        <th>Destination</th>
-        <th>Date</th>
-        <th>Seats</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+<!-- Error state -->
+<p *ngIf="!loading && error" class="error">
+  {{ error }}
+</p>
 
-    <tbody>
-      <tr *ngFor="let f of flights">
-        <td>{{ f.flightNumber }}</td>
-        <td>{{ f.airline }}</td>
-        <td>{{ f.source }}</td>
-        <td>{{ f.destination }}</td>
-        <td>{{ f.date }}</td>
-        <td>{{ f.availableSeats }}</td>
-        <td>
-          <button (click)="editFlight(f.id)">Edit</button>
-          <button (click)="deleteFlight(f.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</ng-container>
+<!-- Flights table -->
+<table *ngIf="!loading && flights.length > 0">
+  <thead>
+    <tr>
+      <th>Flight No</th>
+      <th>Airline</th>
+      <th>Source</th>
+      <th>Destination</th>
+      <th>Date</th>
+      <th>Seats</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
 
-<ng-template #noFlights>
-  <p>No flights available</p>
-</ng-template>
+  <tbody>
+    <tr *ngFor="let f of flights">
+      <td>{{ f.flightNumber }}</td>
+      <td>{{ f.airline }}</td>
+      <td>{{ f.source }}</td>
+      <td>{{ f.destination }}</td>
+      <td>{{ f.date }}</td>
+      <td>{{ f.availableSeats }}</td>
+      <td>
+  <button (click)="editFlight(f.id)">Edit</button>
+  <button (click)="deleteFlight(f.id)">Delete</button>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Empty state -->
+<p *ngIf="!loading && flights.length === 0 && !error">
+  No flights available
+</p>

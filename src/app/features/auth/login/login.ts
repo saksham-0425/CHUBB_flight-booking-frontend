@@ -54,18 +54,19 @@ export class Login {
 
   this.authService.login(this.loginForm.value).subscribe({
     next: (res) => {
-      localStorage.setItem('jwt_token', res.token);
+
+    
+      this.authService.saveToken(res.token);
 
       this.message = 'Login successful';
       this.messageType = 'success';
 
-      setTimeout(() => {
-        if (this.authService.isAdmin()) {
-          this.router.navigate(['/admin/dashboard']);
-        } else {
-          this.router.navigate([this.redirectUrl]);
-        }
-      }, 500);
+     
+      if (this.authService.isAdmin()) {
+        this.router.navigate(['/admin/dashboard']);
+      } else {
+        this.router.navigate([this.redirectUrl]);
+      }
     },
     error: () => {
       this.message = 'Invalid email or password';
@@ -73,4 +74,5 @@ export class Login {
     }
   });
 }
+
 }

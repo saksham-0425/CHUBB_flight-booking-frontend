@@ -9,31 +9,37 @@ export const ADMIN_ROUTES: Routes = [
     loadComponent: () =>
       import('./admin-layout/admin-layout').then(m => m.AdminLayout),
     children: [
+
       {
         path: 'dashboard',
         loadComponent: () =>
           import('./dashboard/dashboard').then(m => m.Dashboard)
       },
+
+      {
+        path: 'flights',
+        loadComponent: () =>
+          import('./flights/flights').then(m => m.Flights),
+        runGuardsAndResolvers: 'always'
+      },
+
+      {
+        path: 'flights/edit/:id',
+        loadComponent: () =>
+          import('./flights/edit-flight/edit-flight').then(m => m.EditFlight)
+      },
+
       {
         path: 'add-flight',
         loadComponent: () =>
           import('./add-flight/add-flight').then(m => m.AddFlight)
       },
+
       {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
       }
-      ,{
-  path: 'flights',
-  loadComponent: () =>
-    import('./flights/flights').then(m => m.Flights)
-},
-{
-  path: 'flights/edit/:id',
-  loadComponent: () =>
-    import('./flights/edit-flight/edit-flight').then(m => m.EditFlight)
-}
     ]
   }
 ];
