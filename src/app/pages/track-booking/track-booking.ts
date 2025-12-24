@@ -81,43 +81,58 @@ export class TrackBooking {
     this.showCancelConfirm = false;
   }
 
-  confirmCancel() {
-    if (!this.booking || this.isCancelling) return;
+ confirmCancel() {
+  if (!this.booking || this.isCancelling) return;
 
-    this.isCancelling = true;
-    this.message = '';
-    this.messageType = '';
+  this.isCancelling = true;
+  this.message = '';
+  this.messageType = '';
 
-    this.bookingService.cancelBookingByPnr(this.booking.pnr).subscribe({
-      next: (res: any) => {
-        this.booking = res;
-        this.isCancelling = false;
-        this.showCancelConfirm = false;
+  const pnr = this.booking.pnr;
 
-        this.message = 'Ticket cancelled successfully';
-        this.messageType = 'success';
-      },
-      error: (err) => {
-        this.isCancelling = false;
-        this.showCancelConfirm = false;
+  this.bookingService.cancelBookingByPnr(pnr).subscribe({
+    next: () => {
+      // ✅ Re-fetch booking after cancel
+      this.bookingService.getBookingByPnr(pnr).subscribe({
+        next: (updatedBooking: any) => {
+          this.booking = updatedBooking;
+          this.isCancelling = false;
+          this.showCancelConfirm = false;
 
-        if (err.status === 401) {
-          this.message = 'Please login to cancel your ticket';
+          this.message = 'Ticket cancelled successfully';
+          this.messageType = 'success';
+        },
+        error: () => {
+          this.isCancelling = false;
+          this.showCancelConfirm = false;
+
+          this.message = 'Cancelled, but failed to refresh booking';
           this.messageType = 'warning';
-
-          this.router.navigate(['/login'], {
-            queryParams: { redirect: 'track-booking' },
-          });
-        } else if (err.status === 400) {
-          this.message = err.error;
-          this.messageType = 'warning';
-        } else {
-          this.message = 'Cancellation failed. Please try again.';
-          this.messageType = 'error';
         }
-      },
-    });
-  }
+      });
+    },
+    error: (err) => {
+      this.isCancelling = false;
+      this.showCancelConfirm = false;
+
+      if (err.status === 401) {
+        this.message = 'Please login to cancel your ticket';
+        this.messageType = 'warning';
+
+        this.router.navigate(['/login'], {
+          queryParams: { redirect: 'track-booking' },
+        });
+      } else if (err.status === 400) {
+        this.message = err.error;
+        this.messageType = 'warning';
+      } else {
+        this.message = 'Cancellation failed. Please try again.';
+        this.messageType = 'error';
+      }
+    },
+  });
+}
+
 
   private resetState() {
     this.booking = null;

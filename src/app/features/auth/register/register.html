@@ -4,7 +4,7 @@
   <nav>
     <a routerLink="/">Home</a>
     <a routerLink="/flights">Flights</a>
-    
+
     <a routerLink="/support">Support</a>
   </nav>
 
@@ -29,9 +29,46 @@
         <label>Password</label>
         <input type="password" formControlName="password" placeholder="Create a password" />
 
-        <button type="submit" class="btn-primary full-width">
+        <!-- PASSWORD RULES -->
+        <div class="password-rules" *ngIf="registerForm.get('password')?.touched">
+
+          <p [class.valid]="isRuleValid('minLength')" 
+   [class.invalid]="!isRuleValid('minLength')">
+  • At least 8 characters
+</p>
+
+<p [class.valid]="isRuleValid('uppercase')" 
+   [class.invalid]="!isRuleValid('uppercase')">
+  • One uppercase letter
+</p>
+
+<p [class.valid]="isRuleValid('lowercase')" 
+   [class.invalid]="!isRuleValid('lowercase')">
+  • One lowercase letter
+</p>
+
+<p [class.valid]="isRuleValid('number')" 
+   [class.invalid]="!isRuleValid('number')">
+  • One number
+</p>
+
+<p [class.valid]="isRuleValid('special')" 
+   [class.invalid]="!isRuleValid('special')">
+  • One special character
+</p>
+
+<p [class.valid]="isRuleValid('noSpace')" 
+   [class.invalid]="!isRuleValid('noSpace')">
+  • No spaces
+</p>
+
+        </div>
+
+        <button type="submit" class="btn-primary full-width" [disabled]="registerForm.invalid">
           Register
         </button>
+
+
 
       </form>
 
