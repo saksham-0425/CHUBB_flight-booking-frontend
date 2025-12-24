@@ -1,0 +1,49 @@
+<h2>My Trips</h2>
+
+<!-- Loading state -->
+<p *ngIf="loading">Loading bookings...</p>
+
+<!-- Error state -->
+<p *ngIf="!loading && error" class="error">
+  {{ error }}
+</p>
+
+<!-- Trips list -->
+<div *ngIf="!loading && bookings.length > 0">
+
+  <div class="trip-card" *ngFor="let booking of bookings">
+
+    <div class="trip-info">
+      <h3>PNR: {{ booking.pnr }}</h3>
+      <p>Passenger: {{ booking.passengerName }}</p>
+      <p>Seats: {{ booking.seats }}</p>
+
+      <p>
+        Status:
+        <span
+          [class.confirmed]="booking.status === 'CONFIRMED'"
+          [class.cancelled]="booking.status === 'CANCELLED'">
+          {{ booking.status }}
+        </span>
+      </p>
+
+      <p>
+        Booked On:
+        {{ booking.bookingDate | date:'medium' }}
+      </p>
+    </div>
+
+    <button
+      class="btn-outline"
+      (click)="cancelBooking(booking.pnr)"
+      [disabled]="booking.status === 'CANCELLED'">
+      Cancel Booking
+    </button>
+
+  </div>
+</div>
+
+<!-- Empty state -->
+<p *ngIf="!loading && bookings.length === 0 && !error">
+  No bookings found
+</p>

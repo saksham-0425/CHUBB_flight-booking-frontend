@@ -41,7 +41,7 @@ export const routes: Routes = [
     component: TrackBooking
   },
 
-  // 🔽 ADMIN ROUTES (COMING NEXT)
+ 
 {
   path: 'admin',
   loadChildren: () =>
@@ -55,6 +55,12 @@ export const routes: Routes = [
   loadComponent: () =>
     import('./features/auth/change-password/change-password')
       .then(m => m.ChangePassword)
+},
+
+{
+  path: 'my-trips',
+  loadComponent: () =>
+    import('./pages/my-trips/my-trips').then(m => m.MyTrips),
 },
 
   {

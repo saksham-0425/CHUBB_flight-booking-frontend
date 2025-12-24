@@ -23,5 +23,8 @@ cancelBookingByPnr(pnr: string) {
   return this.http.put(`${this.baseUrl}/cancel/pnr/${pnr}`, {});
 }
 
+ getMyBookings() {
+    return this.http.get<any[]>(`${this.baseUrl}/history`);
+  }
 
 }

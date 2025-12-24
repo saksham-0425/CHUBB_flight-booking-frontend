@@ -1,0 +1,33 @@
+.my-trips-page {
+  padding: 40px;
+}
+
+.trip-card {
+  background: white;
+  padding: 20px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trip-info p {
+  margin: 4px 0;
+}
+
+.confirmed {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.cancelled {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.info {
+  color: #475569;
+}
