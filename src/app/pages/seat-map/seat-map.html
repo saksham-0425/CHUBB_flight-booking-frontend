@@ -1,0 +1,19 @@
+<div class="seat-map">
+
+  <div *ngIf="loading">Loading seats...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="seat-grid" *ngIf="!loading && !error">
+    <button
+      *ngFor="let seat of seats"
+      class="seat"
+      [class.booked]="seat.booked"
+      [class.selected]="isSelected(seat.seatNumber)"
+      (click)="toggleSeat(seat)"
+      [disabled]="seat.booked"
+    >
+      {{ seat.seatNumber }}
+    </button>
+  </div>
+
+</div>

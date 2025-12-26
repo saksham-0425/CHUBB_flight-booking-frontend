@@ -38,46 +38,70 @@
     <!-- Booking Form -->
     <form *ngIf="!pnr" class="booking-form">
 
-      <div class="form-group">
-        <label>Passenger Name</label>
-        <input
-          type="text"
-          name="passengerName"
-          [(ngModel)]="passengerName"
-          placeholder="John Doe"
-        />
-      </div>
+  <div class="form-group">
+    <label>Passenger Name</label>
+    <input
+      type="text"
+      name="passengerName"
+      [(ngModel)]="passengerName"
+      placeholder="John Doe"
+    />
+  </div>
 
-      <div class="form-group">
-        <label>Email</label>
-        <input
-          type="email"
-          name="email"
-          [(ngModel)]="email"
-          placeholder="john@example.com"
-        />
-      </div>
+  <div class="form-group">
+    <label>Email</label>
+    <input
+      type="email"
+      name="email"
+      [(ngModel)]="email"
+      placeholder="john@example.com"
+    />
+  </div>
 
-      <div class="form-group">
-        <label>Seats</label>
-        <input
-          type="number"
-          name="seats"
-          [(ngModel)]="seats"
-          [min]="1"
-          [max]="flight.availableSeats"
-        />
-      </div>
+  <div class="form-group">
+    <label>Passengers</label>
+    <input
+      type="number"
+      name="passengerCount"
+      [(ngModel)]="passengerCount"
+      [min]="1"
+      [max]="flight.availableSeats"
+    />
+  </div>
 
-      <button
-        type="button"
-        [disabled]="isSubmitting"
-        (click)="confirmBooking()"
-      >
-        {{ isSubmitting ? 'Confirming...' : 'Confirm Booking' }}
-      </button>
+  <!-- Seat summary -->
+  <div class="seat-summary">
+    <p>
+      Selected Seats:
+      <strong *ngIf="selectedSeats.length">
+        {{ selectedSeats.join(', ') }}
+      </strong>
+      <span *ngIf="!selectedSeats.length">
+        None selected
+      </span>
+    </p>
 
-    </form>
+    <p class="hint">
+      {{ selectedSeats.length }} / {{ passengerCount }} selected
+    </p>
+
+    <app-seat-map
+  [flightId]="flight.id"
+  [passengerCount]="passengerCount"
+  (seatsChange)="onSeatsChange($event)"
+></app-seat-map>
+  </div>
+
+  <button
+    type="button"
+    [disabled]="!canConfirmBooking"
+    (click)="confirmBooking()"
+  >
+    {{ isSubmitting ? 'Confirming...' : 'Confirm Booking' }}
+  </button>
+
+</form>
+
 
     <!-- Post booking actions -->
     <div *ngIf="pnr" class="booking-actions">

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BookingService } from '../../../core/services/booking';
+import { SeatMap } from '../../../pages/seat-map/seat-map';
 
 @Component({
   selector: 'app-booking',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SeatMap],
   templateUrl: './booking.html',
   styleUrls: ['./booking.css']
 })
@@ -17,7 +18,9 @@ export class Booking implements OnInit {
 
   passengerName = '';
   email = '';
-  seats = 1;
+
+  passengerCount = 1;          
+  selectedSeats: string[] = []; 
 
   isSubmitting = false;
 
@@ -36,7 +39,19 @@ export class Booking implements OnInit {
 
     if (!this.flight?.id) {
       this.router.navigate(['/search']);
+      return;
     }
+
+    // Seat map will push updates here 
+    this.selectedSeats = [];
+  }
+
+  get canConfirmBooking(): boolean {
+    return (
+      this.passengerCount > 0 &&
+      this.selectedSeats.length === this.passengerCount &&
+      !this.isSubmitting
+    );
   }
 
   confirmBooking() {
@@ -46,7 +61,12 @@ export class Booking implements OnInit {
       return;
     }
 
-    if (this.isSubmitting || this.pnr) return;
+    if (this.selectedSeats.length !== this.passengerCount) {
+      this.message =
+        'Passenger count must match selected seats';
+      this.messageType = 'warning';
+      return;
+    }
 
     this.isSubmitting = true;
     this.message = '';
@@ -55,8 +75,8 @@ export class Booking implements OnInit {
     const payload = {
       flightId: this.flight.id,
       passengerName: this.passengerName,
-      email: this.email,
-      seats: this.seats
+      passengerCount: this.passengerCount,
+      seatNumbers: this.selectedSeats
     };
 
     this.bookingService.createBooking(payload).subscribe({
@@ -71,11 +91,12 @@ export class Booking implements OnInit {
         this.message =
           err.status === 409
             ? 'Booking already exists for this flight'
-            : 'Booking failed. Please try again';
+            : err.error?.message || 'Booking failed';
         this.messageType = 'error';
       }
     });
   }
+
   goToTrackBooking() {
     this.router.navigate(['/track-booking']);
   }
@@ -83,4 +104,8 @@ export class Booking implements OnInit {
   goToHome() {
     this.router.navigate(['/search']);
   }
+
+  onSeatsChange(seats: string[]) {
+  this.selectedSeats = seats;
+}
 }
